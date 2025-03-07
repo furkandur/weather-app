@@ -9,6 +9,7 @@ import ipdataService from './services/ipdata';
 
 const App = () => {
   const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
+  const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
   const [weather, setWeather] = useState<CurrentWeather | null>(null);
 
   const getUserLocationByIp = async () => {
@@ -22,29 +23,44 @@ const App = () => {
 
   useEffect(() => {
     const fetchWeather = async () => {
-      if (!userLocation) {
-        await getUserLocationByIp();
-        return;
+      if (!weather) {
+        if (!userLocation) {
+          await getUserLocationByIp();
+        } else {
+          const location = `${userLocation.latitude.toString()},${userLocation.longitude.toString()}`;
+          try {
+            const weather = await weatherService.getCurrentWeather(location);
+            setWeather(weather);
+          } catch (error) {
+            console.error('Failed to fetch weather data: ', error);
+          }
+        }
       }
+    };
+    void fetchWeather();
+  }, [userLocation, weather]);
 
-      const location = `${userLocation.latitude.toString()},${userLocation.longitude.toString()}`;
-
-      try {
-        const weather = await weatherService.getCurrentWeather(location);
-        setWeather(weather);
-      } catch (error) {
-        console.error('Failed to fetch weather data: ', error);
+  useEffect(() => {
+    const onLocationGiven = async () => {
+      if (selectedLocation) {
+        try {
+          const weather = await weatherService.getCurrentWeather(
+            selectedLocation
+          );
+          setWeather(weather);
+        } catch (error) {
+          console.error('Failed to fetch weather data: ', error);
+        }
       }
     };
 
-    if (!weather) {
-      void fetchWeather();
-    }
-  }, [userLocation, weather]);
+    void onLocationGiven();
+  }, [selectedLocation]);
+
   return (
     <BrowserRouter>
       <Container>
-        <Navigation />
+        <Navigation setSelectedLocation={setSelectedLocation} />
         <Routes>
           <Route path="/" element={<HomePage currentWeather={weather} />} />
         </Routes>
