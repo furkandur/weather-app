@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CurrentWeather } from '../types';
+import { WeatherData } from '../types';
 import { weatherApiKey } from '../constants';
 
 if (!weatherApiKey) {
@@ -7,8 +7,8 @@ if (!weatherApiKey) {
 }
 
 const getCurrentWeather = async (location: string) => {
-  const { data } = await axios.get<CurrentWeather>(
-    `http://api.weatherapi.com/v1/current.json?key=${weatherApiKey}&q=${location}&aqi=no`
+  const { data } = await axios.get<WeatherData>(
+    `http://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${location}&days=7&aqi=no`
   );
 
   return data;

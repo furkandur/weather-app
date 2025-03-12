@@ -1,16 +1,16 @@
 import { Container } from '@mui/material';
 import Navigation from './components/Navigation';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import { useEffect, useState } from 'react';
-import { CurrentWeather, UserLocation } from './types';
+import { UserLocation, WeatherData } from './types';
 import weatherService from './services/weather';
 import ipdataService from './services/ipdata';
 
 const App = () => {
   const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
-  const [weather, setWeather] = useState<CurrentWeather | null>(null);
+  const [weather, setWeather] = useState<WeatherData | null>(null);
 
   const getUserLocationByIp = async () => {
     try {
@@ -58,14 +58,14 @@ const App = () => {
   }, [selectedLocation]);
 
   return (
-    <BrowserRouter>
+    <>
+      <Navigation setSelectedLocation={setSelectedLocation} />
       <Container>
-        <Navigation setSelectedLocation={setSelectedLocation} />
         <Routes>
-          <Route path="/" element={<HomePage currentWeather={weather} />} />
+          <Route path="/" element={<HomePage weather={weather} />} />
         </Routes>
       </Container>
-    </BrowserRouter>
+    </>
   );
 };
 
