@@ -5,7 +5,8 @@ const theme = createTheme({
     background: { default: '#f5f5f5' },
   },
   typography: {
-    fontFamily: 'Inter',
+    fontFamily:
+      '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
     h2: { fontWeight: 700, letterSpacing: '-1px' },
     h4: { fontWeight: 700 },
     h5: { fontWeight: 700 },
