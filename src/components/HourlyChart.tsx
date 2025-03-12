@@ -115,7 +115,7 @@ const HourlyChart = ({ location, forecast }: Props) => {
   };
 
   return (
-    <Paper variant="outlined" sx={{ p: 3, height: '100%' }}>
+    <Paper variant="outlined" sx={{ p: { xs: 1, sm: 3 }, height: '100%' }}>
       <Tabs value={chartTab} onChange={handleTabChange}>
         <Tab value={'temp'} label="Temperature" />
         <Tab value={'rain'} label="Rain" />

@@ -29,7 +29,7 @@ const Forecast = ({ forecast }: Props) => {
         {forecast.forecastday.map((fcDay, index) => (
           <Grid size={{ xs: 12, sm: 4 }} key={fcDay.date}>
             <Card variant="outlined">
-              <CardContent>
+              <CardContent sx={{ p: 3 }}>
                 <Typography variant="h6" gutterBottom>
                   {index === 0 ? 'Today' : formatDate(fcDay.date)}
                 </Typography>
