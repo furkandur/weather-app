@@ -8,7 +8,7 @@ if (!weatherApiKey) {
 
 const getCurrentWeather = async (location: string) => {
   const { data } = await axios.get<WeatherData>(
-    `http://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${location}&days=7&aqi=no`
+    `https://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${location}&days=7&aqi=no`
   );
 
   return data;
