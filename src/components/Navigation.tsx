@@ -5,7 +5,6 @@ import {
   Divider,
   IconButton,
   InputAdornment,
-  Stack,
   TextField,
   Toolbar,
   Typography,
@@ -33,54 +32,67 @@ const Navigation = ({ setSelectedLocation }: Props) => {
   return (
     <>
       <AppBar position="static" elevation={0} color="inherit">
-        <Toolbar>
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            sx={{ width: '100%' }}
+        <Toolbar
+          sx={{
+            display: 'flex',
+            flexDirection: { xs: 'column', sm: 'row' },
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 1,
+            p: 1,
+          }}
+        >
+          <Typography
+            component={Link}
+            to="/"
+            variant="h5"
+            color="primary"
+            sx={{
+              flexShrink: 0,
+              fontWeight: 700,
+              letterSpacing: '-0.5px',
+              textDecoration: 'none',
+            }}
           >
-            <Typography
-              component={Link}
-              to="/"
-              variant="h5"
-              color="primary"
-              sx={{
-                flexShrink: 0,
-                fontWeight: 700,
-                letterSpacing: '-0.5px',
-                textDecoration: 'none',
+            WEATHER-GATHER
+          </Typography>
+          <Box component="form" onSubmit={handleSearch}>
+            <TextField
+              placeholder="Search location..."
+              value={searchQuery}
+              onChange={({ target }) => {
+                setSearchQuery(target.value);
               }}
-            >
-              WEATHER-GATHER
-            </Typography>
-            <Box component="form" onSubmit={handleSearch}>
-              <TextField
-                placeholder="Search location..."
-                value={searchQuery}
-                onChange={({ target }) => {
-                  setSearchQuery(target.value);
-                }}
-                size="small"
-                sx={{ width: '350px' }}
-                slotProps={{
-                  input: {
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <Search />
-                      </InputAdornment>
-                    ),
-                    endAdornment: searchQuery && (
-                      <InputAdornment position="end">
-                        <IconButton onClick={handleClear}>
-                          <Clear />
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  },
-                }}
-              />
-            </Box>
-          </Stack>
+              size="small"
+              sx={{ width: { xs: '100%', sm: '350px' } }}
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Search />
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <Box
+                        sx={{
+                          width: '24px',
+                          display: 'flex',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        {searchQuery && (
+                          <IconButton onClick={handleClear} size="small">
+                            <Clear />
+                          </IconButton>
+                        )}
+                      </Box>
+                    </InputAdornment>
+                  ),
+                },
+              }}
+            />
+          </Box>
         </Toolbar>
       </AppBar>
       <Divider />
