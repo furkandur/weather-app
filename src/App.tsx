@@ -1,4 +1,3 @@
-import { Container } from '@mui/material';
 import Navigation from './components/Navigation';
 import { Route, Routes } from 'react-router-dom';
 import HomePage from './pages/HomePage';
@@ -6,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { UserLocation, WeatherData } from './types';
 import weatherService from './services/weather';
 import ipdataService from './services/ipdata';
+import BackgroundVideo from './components/BackgroundVideo';
 
 const App = () => {
   const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
@@ -59,12 +59,12 @@ const App = () => {
 
   return (
     <>
-      <Navigation setSelectedLocation={setSelectedLocation} />
-      <Container>
+      <BackgroundVideo weather={weather?.current}>
+        <Navigation setSelectedLocation={setSelectedLocation} />
         <Routes>
           <Route path="/" element={<HomePage weather={weather} />} />
         </Routes>
-      </Container>
+      </BackgroundVideo>
     </>
   );
 };

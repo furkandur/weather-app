@@ -1,8 +1,8 @@
-import { createTheme } from '@mui/material';
+import { alpha, createTheme } from '@mui/material';
 
 const theme = createTheme({
   palette: {
-    background: { default: '#f5f5f5' },
+    mode: 'dark',
   },
   typography: {
     fontFamily:
@@ -20,12 +20,20 @@ const theme = createTheme({
           variants: [
             {
               props: { variant: 'outlined' },
-              style: {
+              style: ({ theme }) => ({
                 borderRadius: 10,
-              },
+                backgroundColor: alpha(theme.palette.background.paper, 0.75),
+              }),
             },
           ],
         },
+      },
+    },
+    MuiAppBar: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          backgroundColor: alpha(theme.palette.background.paper, 0.8),
+        }),
       },
     },
   },

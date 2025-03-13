@@ -61,7 +61,7 @@ const HourlyChart = ({ location, forecast }: Props) => {
       <Area
         type="monotone"
         dataKey="Temperature"
-        stroke={theme.palette.text.primary}
+        stroke={theme.palette.primary.contrastText}
         fill={theme.palette.primary.main}
       />
       <XAxis dataKey="Hour" interval={1} />
@@ -72,7 +72,7 @@ const HourlyChart = ({ location, forecast }: Props) => {
   const rainChart = (
     <LineChart data={data} margin={{ left: 10, right: 10, top: 5, bottom: 5 }}>
       <Line
-        type="monotone"
+        type="linear"
         dataKey="RainRate"
         stroke={theme.palette.text.primary}
       />

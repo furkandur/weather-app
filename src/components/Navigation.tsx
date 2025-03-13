@@ -31,7 +31,7 @@ const Navigation = ({ setSelectedLocation }: Props) => {
 
   return (
     <>
-      <AppBar position="static" elevation={0} color="inherit">
+      <AppBar position="static" elevation={0}>
         <Toolbar
           sx={{
             display: 'flex',
