@@ -6,6 +6,7 @@ import {
   ResponsiveContainer,
   Tooltip,
   XAxis,
+  YAxis,
 } from 'recharts';
 import { ForecastWeatherData, LocationWeatherData } from '../types';
 import { Box, Paper, Tab, Tabs, useTheme } from '@mui/material';
@@ -30,7 +31,7 @@ const HourlyChart = ({ location, forecast }: Props) => {
       const hour = date.getHours();
       data.push({
         Hour: hour,
-        Temperature: h.temp_c,
+        Temp: h.temp_c,
         RainRate: h.chance_of_rain,
         Humidity: h.humidity,
       });
@@ -45,7 +46,7 @@ const HourlyChart = ({ location, forecast }: Props) => {
         const hour = date.getHours();
         data.push({
           Hour: hour,
-          Temperature: h.temp_c,
+          Temp: h.temp_c,
           RainRate: h.chance_of_rain,
           Humidity: h.humidity,
         });
@@ -54,18 +55,65 @@ const HourlyChart = ({ location, forecast }: Props) => {
     });
   }
 
+  const gradientOffset = () => {
+    const dataMax = Math.max(...data.map(i => i.Temp));
+    const dataMin = Math.min(...data.map(i => i.Temp));
+
+    if (dataMax <= 0) {
+      return 0;
+    }
+    if (dataMin >= 0) {
+      return 1;
+    }
+
+    return dataMax / (dataMax - dataMin);
+  };
+
+  const off = gradientOffset();
+
   const theme = useTheme();
+
+  const tooltipContentStyle: React.CSSProperties = {
+    backgroundColor: theme.palette.background.paper,
+    fontSize: '14px',
+    padding: 10,
+    border: '1px',
+    borderRadius: 8,
+  };
+
+  const tooltipItemStyle: React.CSSProperties = {
+    color: theme.palette.text.primary,
+    fontSize: '14px',
+  };
 
   const tempChart = (
     <AreaChart data={data} margin={{ left: 10, right: 10, top: 5, bottom: 5 }}>
+      <defs>
+        <linearGradient id="splitColor" x1={0} y1={0} x2={0} y2={1}>
+          <stop
+            offset={off}
+            stopColor={theme.palette.primary.main}
+            stopOpacity={1}
+          />
+          <stop
+            offset={off}
+            stopColor={theme.palette.secondary.main}
+            stopOpacity={1}
+          />
+        </linearGradient>
+      </defs>
       <Area
         type="monotone"
-        dataKey="Temperature"
+        dataKey="Temp"
         stroke={theme.palette.primary.contrastText}
-        fill={theme.palette.primary.main}
+        fill="url(#splitColor)"
       />
       <XAxis dataKey="Hour" interval={1} />
-      <Tooltip labelFormatter={(val: number) => `${val.toString()}h`} />
+      <Tooltip
+        contentStyle={tooltipContentStyle}
+        itemStyle={tooltipItemStyle}
+        labelFormatter={(val: number) => `${val.toString()}h`}
+      />
     </AreaChart>
   );
 
@@ -77,7 +125,11 @@ const HourlyChart = ({ location, forecast }: Props) => {
         stroke={theme.palette.text.primary}
       />
       <XAxis dataKey="Hour" interval={1} />
-      <Tooltip labelFormatter={(val: number) => `${val.toString()}h`} />
+      <Tooltip
+        contentStyle={tooltipContentStyle}
+        itemStyle={tooltipItemStyle}
+        labelFormatter={(val: number) => `${val.toString()}h`}
+      />
     </LineChart>
   );
 
@@ -86,11 +138,15 @@ const HourlyChart = ({ location, forecast }: Props) => {
       <Area
         type="monotone"
         dataKey="Humidity"
-        stroke={theme.palette.text.primary}
+        stroke={theme.palette.primary.contrastText}
         fill={theme.palette.primary.main}
       />
       <XAxis dataKey="Hour" interval={2} />
-      <Tooltip labelFormatter={(val: number) => `${val.toString()}h`} />
+      <Tooltip
+        contentStyle={tooltipContentStyle}
+        itemStyle={tooltipItemStyle}
+        labelFormatter={(val: number) => `${val.toString()}h`}
+      />
     </AreaChart>
   );
 
