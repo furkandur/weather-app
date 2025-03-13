@@ -6,7 +6,6 @@ import {
   ResponsiveContainer,
   Tooltip,
   XAxis,
-  YAxis,
 } from 'recharts';
 import { ForecastWeatherData, LocationWeatherData } from '../types';
 import { Box, Paper, Tab, Tabs, useTheme } from '@mui/material';
@@ -17,13 +16,20 @@ interface Props {
   forecast: ForecastWeatherData;
 }
 
+interface Data {
+  Hour: number;
+  Temp: number;
+  RainRate: string;
+  Humidity: number;
+}
+
 const HourlyChart = ({ location, forecast }: Props) => {
   const [chartTab, setChartTab] = useState('temp');
 
   const now = new Date(location.localtime);
 
   let count = 24;
-  const data: object[] = [];
+  const data: Data[] = [];
   forecast.forecastday[0].hour.map(h => {
     const date = new Date(h.time);
 
