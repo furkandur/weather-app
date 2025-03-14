@@ -1,17 +1,8 @@
 import { JSX } from '@emotion/react/jsx-runtime';
-import { Box, styled } from '@mui/material';
+import { Box } from '@mui/material';
 import { CurrentWeatherData } from '../types';
 import { useEffect, useState } from 'react';
-
-const VideoBackground = styled('video')({
-  position: 'absolute',
-  width: '100%',
-  height: '100%',
-  objectFit: 'cover',
-  zIndex: -1,
-  filter: 'blur(5px)',
-  scale: '1.1',
-});
+import ReactPlayer from 'react-player';
 
 const getWeatherVideo = (weatherCode: number) => {
   const videos = {
@@ -44,12 +35,14 @@ interface Props {
 
 const BackgroundVideo = ({ weather, children }: Props) => {
   const [video, setVideo] = useState('');
+
   useEffect(() => {
     if (weather) {
       const videoToSet = getWeatherVideo(weather.condition.code);
       setVideo(videoToSet);
     }
   }, [weather]);
+
   return (
     <Box
       sx={{
@@ -59,11 +52,50 @@ const BackgroundVideo = ({ weather, children }: Props) => {
         overflow: 'hidden',
       }}
     >
-      <VideoBackground autoPlay muted loop playsInline key={video}>
-        <source src={`/videos/${video}.mp4`} type="video/mp4" />
-        Your browser does not support the video tag.
-      </VideoBackground>
-      {children}
+      <Box
+        sx={{
+          ':after': {
+            content: '""',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backdropFilter: 'blur(4px)',
+            transform: 'scale(1.1)',
+          },
+        }}
+      >
+        <ReactPlayer
+          url={`/videos/${video}.mp4`}
+          playing
+          muted
+          loop
+          playsinline
+          width="100%"
+          height="100%"
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+          }}
+          config={{
+            file: {
+              attributes: {
+                style: {
+                  objectFit: 'cover',
+                  width: '100%',
+                  height: '100%',
+                },
+              },
+            },
+          }}
+        />
+      </Box>
+      <Box sx={{ position: 'relative', zIndex: 1, height: '100%' }}>
+        {children}
+      </Box>
     </Box>
   );
 };
