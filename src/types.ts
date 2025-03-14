@@ -142,3 +142,31 @@ export interface Ipdata {
   longitude: number;
   postal: string;
 }
+
+export interface Locator {
+  plumeLabsLink?: string;
+  dma: string;
+  englishName?: string;
+  gmtOffset: number;
+  hasAlerts: boolean;
+  hasForecastConfidence: boolean;
+  hasPollen: boolean;
+  hasMinuteCast: boolean;
+  hasFutureRadar: boolean;
+  lat: number;
+  lon: number;
+  mediaRegion?: string;
+  region?: string;
+  timeZone?: string;
+  timeZoneCode?: string;
+  zoom?: string;
+  mobileZoom?: string;
+  administrativeArea?: string;
+  country?: string;
+  key: string;
+  localizedName?: string;
+  primaryPostalCode?: string;
+  name: string;
+  longName: string;
+  source: string;
+}

@@ -3,7 +3,7 @@ import { Ipdata } from '../types';
 import { ipdataApiKey } from '../constants';
 
 if (!ipdataApiKey) {
-  throw new Error(' is not defined');
+  throw new Error('IPDATA_API_KEY is not defined');
 }
 
 const getIpdata = async () => {
