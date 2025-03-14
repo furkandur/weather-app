@@ -17,7 +17,6 @@ const SearchBar = ({ setSelectedLocation }: Props) => {
     setSelectedLocation(searchQuery);
     setSearchValue('');
     setSearchQuery('');
-    console.log(searchValue);
   };
 
   const replaceTurkishChars = (text: string): string => {
